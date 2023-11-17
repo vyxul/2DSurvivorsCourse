@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
-const MAX_SPEED = 75
+const MAX_SPEED = 40
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Area2D.area_entered.connect(on_area_entered.bind())
+	$Area2D.area_entered.connect(on_area_entered)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
