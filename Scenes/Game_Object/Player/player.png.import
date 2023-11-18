@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://38nuwpgea5jt"
-path="res://.godot/imported/grey_rat.png-3983b8e23e2fa11f096a594ea64f467a.ctex"
+uid="uid://dkt00rovk86os"
+path="res://.godot/imported/player.png-918ba9ebd89cb3a03edafce9fe20064c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Basic_Enemy/grey_rat.png"
-dest_files=["res://.godot/imported/grey_rat.png-3983b8e23e2fa11f096a594ea64f467a.ctex"]
+source_file="res://Scenes/Game_Object/Player/player.png"
+dest_files=["res://.godot/imported/player.png-918ba9ebd89cb3a03edafce9fe20064c.ctex"]
 
 [params]
 
