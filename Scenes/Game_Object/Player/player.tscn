@@ -10,10 +10,10 @@ bg_color = Color(0.247059, 0.14902, 0.192157, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvqmd"]
 bg_color = Color(0.909804, 0.270588, 0.215686, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 border_color = Color(0.247059, 0.14902, 0.192157, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pfmqb"]
@@ -32,9 +32,10 @@ script = ExtResource("1_y5ol4")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_gjy6l")]
 
-[node name="AbilityManager" type="Node" parent="."]
+[node name="Abilities" type="Node" parent="."]
 
-[node name="SwordAbilityController" parent="AbilityManager" instance=ExtResource("2_ihnwy")]
+[node name="SwordAbilityController" parent="Abilities" instance=ExtResource("2_ihnwy")]
+sword_base_attack_rate = 0.5
 
 [node name="DamageIntervalTimer" type="Timer" parent="."]
 wait_time = 0.5

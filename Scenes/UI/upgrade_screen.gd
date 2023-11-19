@@ -12,6 +12,13 @@ func _ready():
 
 
 func set_ability_upgrades(upgrades: Array[AbilityUpgrade]):
+	# If there are no more available upgrades, unpause game and remove upgrade screen
+	if upgrades.is_empty():
+		print_debug("No upgrades available, exiting from level up screen")
+		get_tree().paused = false
+		queue_free()
+	
+	# Else, display the upgrade screen with choices
 	for upgrade in upgrades:
 		var card_instance = upgrade_card_scene.instantiate()
 		card_container.add_child(card_instance)

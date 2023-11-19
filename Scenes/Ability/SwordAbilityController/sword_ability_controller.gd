@@ -1,16 +1,22 @@
 extends Node
 
-@export var max_range: float
+@export_category("Sword Stats")
+@export var max_range: float = 150
+@export var sword_base_attack_rate: float = 1.5
+@export var sword_base_attack_damage: float = 1
 
+@export_group("Controller Setup")
 @export var sword_ability: PackedScene
 
-var damage = 1
-var base_wait_time
+var sword_attack_rate: float
+var sword_attack_damage: float
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	base_wait_time = $Timer.wait_time
+	sword_attack_rate = sword_base_attack_rate
+	sword_attack_damage = sword_base_attack_damage
 	
+	$Timer.wait_time = sword_attack_rate
 	$Timer.timeout.connect(on_timer_timeout)
 	GameEvents.ability_upgrade_added.connect(on_ability_upgrade_added)
 
@@ -44,7 +50,7 @@ func on_timer_timeout():
 	var sword_instance = sword_ability.instantiate() as SwordAbility
 	var foreground_layer = get_tree().get_first_node_in_group("foreground_layer")
 	foreground_layer.add_child(sword_instance)
-	sword_instance.hitbox_component.damage = damage
+	sword_instance.hitbox_component.damage = sword_attack_damage
 	
 	# Spawn the sword on the enemy position
 	sword_instance.global_position = enemies[0].global_position
@@ -65,7 +71,7 @@ func on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Diction
 		return
 		
 	var percent_reduction = current_upgrades["sword_rate"]["quantity"] * .1
-	$Timer.wait_time = base_wait_time * (1 - percent_reduction)
+	$Timer.wait_time = sword_base_attack_rate * (1 - percent_reduction)
 	# Need to call start since we currently have timer as NOT a one shot and won't get updates unless restarted
 	$Timer.start()
 	
