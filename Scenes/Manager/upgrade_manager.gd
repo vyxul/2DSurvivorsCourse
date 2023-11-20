@@ -1,14 +1,25 @@
 extends Node
 
-# Possible upgrades player can have
-@export var upgrade_pool: Array[AbilityUpgrade]
+
 @export var experience_manager: Node
 @export var upgrade_screen_scene: PackedScene
+@export var upgrade_choice_limit: int = 3
 
 # Upgrades that player already has
 var current_upgrades = {}
+var upgrade_pool: WeightedTable = WeightedTable.new()
+
+var upgrade_axe = preload("res://Resources/Upgrades/axe.tres")
+var upgrade_axe_damage = preload("res://Resources/Upgrades/axe_damage.tres")
+var upgrade_axe_rate = preload("res://Resources/Upgrades/axe_rate.tres")
+var upgrade_sword_rate = preload("res://Resources/Upgrades/sword_rate.tres")
+var upgrade_sword_damage = preload("res://Resources/Upgrades/sword_damage.tres")
 
 func _ready():
+	upgrade_pool.add_item(upgrade_axe, 10)
+	upgrade_pool.add_item(upgrade_sword_rate, 10)
+	upgrade_pool.add_item(upgrade_sword_damage, 10)
+	
 	experience_manager.level_up.connect(on_level_up)
 
 
@@ -41,34 +52,33 @@ func apply_upgrade(upgrade: AbilityUpgrade):
 			#upgrade_pool.erase(upgrade)
 			# not using erase since there might be multiple of the same upgrade in the pool for some reason
 			# use filter to be sure that its gone
-			upgrade_pool = upgrade_pool.filter(func (pool_upgrade):
-				return pool_upgrade.id != upgrade.id
-			)
+			upgrade_pool.remove_item(upgrade)
+		
+	# pass in the upgrade
+	# hard coded for now but if its axe, add the upgrades for the axe
+	# can make it check if upgrade is Ability, and ability resource has array of related upgrades
+	update_upgrade_pool(upgrade)
 		
 	GameEvents.emit_ability_upgrade_added(upgrade, current_upgrades)
 #	print_debug(current_upgrades)
 
 
+func update_upgrade_pool(chosen_upgrade: AbilityUpgrade):
+	if chosen_upgrade.id == upgrade_axe.id:
+		upgrade_pool.add_item(upgrade_axe_damage, 10)
+		upgrade_pool.add_item(upgrade_axe_rate, 10)
+
+
 func pick_upgrades() -> Array[AbilityUpgrade]:
-	# need filtered array to prevent same ability showing up multiple times in one upgrade screen
-	var filtered_upgrade_pool = upgrade_pool.duplicate()
 	# need to keep track of what upgrades we will show on upgrade screen
 	var chosen_upgrade_pool: Array[AbilityUpgrade] = []
 	
-	for i in 2:
-		# if no upgrades left in pool, leave the loop
-		if filtered_upgrade_pool.size() == 0:
+	for i in upgrade_choice_limit:
+		if upgrade_pool.items.size() == chosen_upgrade_pool.size():
 			break
 		
 		# Randomly get one of the upgrades that the player can have
-		var chosen_upgrade = filtered_upgrade_pool.pick_random() as AbilityUpgrade
-		
-		# filter function will iterate through every element within that array
-		# at each element, it will be given as an argument to the inline function
-		# if the function returns true, that element will stay in the new filtered array
-		filtered_upgrade_pool = filtered_upgrade_pool.filter(func (upgrade):
-			return upgrade.id != chosen_upgrade.id
-		)
+		var chosen_upgrade = upgrade_pool.pick_item(chosen_upgrade_pool)
 
 		# add the previously chosen upgrade to the chosen upgrade pool to pick
 		chosen_upgrade_pool.append(chosen_upgrade)

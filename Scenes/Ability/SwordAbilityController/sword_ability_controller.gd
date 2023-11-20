@@ -10,6 +10,7 @@ extends Node
 
 var sword_attack_rate: float
 var sword_attack_damage: float
+var sword_attack_damage_multiplier: float = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -50,7 +51,7 @@ func on_timer_timeout():
 	var sword_instance = sword_ability.instantiate() as SwordAbility
 	var foreground_layer = get_tree().get_first_node_in_group("foreground_layer")
 	foreground_layer.add_child(sword_instance)
-	sword_instance.hitbox_component.damage = sword_attack_damage
+	sword_instance.hitbox_component.damage = sword_base_attack_damage * sword_attack_damage_multiplier
 	
 	# Spawn the sword on the enemy position
 	sword_instance.global_position = enemies[0].global_position
@@ -67,12 +68,15 @@ func on_timer_timeout():
 
 
 func on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary):
-	if upgrade.id != "sword_rate":
-		return
+	if upgrade.id == "sword_rate":
+		var percent_reduction = current_upgrades["sword_rate"]["quantity"] * .1
+		$Timer.wait_time = sword_base_attack_rate * (1 - percent_reduction)
+		# Need to call start since we currently have timer as NOT a one shot and won't get updates unless restarted
+		$Timer.start()
 		
-	var percent_reduction = current_upgrades["sword_rate"]["quantity"] * .1
-	$Timer.wait_time = sword_base_attack_rate * (1 - percent_reduction)
-	# Need to call start since we currently have timer as NOT a one shot and won't get updates unless restarted
-	$Timer.start()
+		print_debug("Sword Timer wait_time = %f" % $Timer.wait_time)
+		
+	elif upgrade.id == "sword_damage":
+		sword_attack_damage_multiplier = 1 + (current_upgrades["sword_damage"]["quantity"] * .15)
 	
-#	print_debug("Sword Timer wait_time = %f" % $Timer.wait_time)
+		print_debug("Sword Damage Multiplier = %f" % sword_attack_damage_multiplier)

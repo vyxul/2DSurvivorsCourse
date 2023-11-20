@@ -8,14 +8,48 @@ script = ExtResource("1_jk2qo")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="NameLabel" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.752941, 0.796078, 0.862745, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
 text = "test name"
+horizontal_alignment = 1
+vertical_alignment = 2
 
-[node name="DescriptionLabel" type="Label" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(120, 150)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.752941, 0.796078, 0.862745, 0.419608)
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer/MarginContainer/ColorRect/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.14902, 0.168627, 0.266667, 1)
+theme_override_font_sizes/font_size = 16
 text = "Write some description here"
 autowrap_mode = 2

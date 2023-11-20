@@ -1,11 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cmf8jmyko5raq"]
+[gd_scene load_steps=16 format=3 uid="uid://cmf8jmyko5raq"]
 
 [ext_resource type="Script" path="res://Scenes/Game_Object/Grey_Rat_Enemy/grey_rat_enemy.gd" id="1_10ca6"]
 [ext_resource type="PackedScene" uid="uid://bv8nyyi5juhsa" path="res://Scenes/Component/health_component.tscn" id="2_5snas"]
 [ext_resource type="PackedScene" uid="uid://d183qaf53bq5" path="res://Scenes/Component/vial_drop_component.tscn" id="3_mo7jv"]
 [ext_resource type="PackedScene" uid="uid://dpakoqqbwi0wr" path="res://Scenes/Component/velocity_component.tscn" id="4_8fj5t"]
 [ext_resource type="PackedScene" uid="uid://cyc1uct5x1ohn" path="res://Scenes/Component/death_component.tscn" id="5_2g741"]
+[ext_resource type="PackedScene" uid="uid://d1h0pl2teir4u" path="res://Scenes/Component/hit_flash_component.tscn" id="5_npeci"]
 [ext_resource type="PackedScene" uid="uid://bsxkiwvu61ges" path="res://Scenes/Component/hurtbox_component.tscn" id="6_b4d8p"]
+[ext_resource type="Shader" path="res://Scenes/Component/hit_flash_component.gdshader" id="6_q7jj4"]
 [ext_resource type="Texture2D" uid="uid://38nuwpgea5jt" path="res://Scenes/Game_Object/Grey_Rat_Enemy/grey_rat.png" id="7_ttf57"]
 
 [sub_resource type="Animation" id="Animation_6u5xr"]
@@ -70,6 +72,11 @@ _data = {
 "walk": SubResource("Animation_4ta3w")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yt7tj"]
+resource_local_to_scene = true
+shader = ExtResource("6_q7jj4")
+shader_parameter/lerp_percent = 0.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5a4l"]
 radius = 11.0
 
@@ -96,6 +103,11 @@ drop_percent = 1.0
 health_component = NodePath("../HealthComponent")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("4_8fj5t")]
+
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("5_npeci")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+hit_flash_material = SubResource("ShaderMaterial_yt7tj")
 
 [node name="DeathComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("5_2g741")]
 health_component = NodePath("../HealthComponent")

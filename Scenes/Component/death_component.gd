@@ -10,7 +10,8 @@ func _ready():
 
 
 func on_died():
-	# need to make it so that the animation plays while the enemy is not available anymore on player weapon search
+	# need to make it so that the animation plays while the enemy is not 
+	# available anymore on player weapon search
 	# so that player doesn't attack an enemy in death animation
 	
 	if !owner || not owner is Node2D:
