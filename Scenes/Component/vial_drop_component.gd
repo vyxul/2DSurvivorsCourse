@@ -1,6 +1,7 @@
 extends Node
 
 @export_range(0,1) var drop_percent: float = .5
+@export var experience_points: float = 1
 @export var health_component: HealthComponent
 @export var vial_scene: PackedScene
 
@@ -25,4 +26,5 @@ func on_died():
 	
 	var entities_layer = get_tree().get_first_node_in_group("entities_layer")
 	entities_layer.add_child(vial_instance)
+	vial_instance.experience_points = experience_points
 	vial_instance.global_position = spawn_position

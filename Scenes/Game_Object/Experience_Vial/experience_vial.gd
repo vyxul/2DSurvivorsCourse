@@ -1,5 +1,6 @@
 extends Node2D
 
+var experience_points: float = 1
 
 func _ready():
 	$Area2D.area_entered.connect(on_area_entered)
@@ -7,5 +8,5 @@ func _ready():
 
 
 func on_area_entered(other_area: Area2D):
-	GameEvents.emit_experience_vial_collected(2)
+	GameEvents.emit_experience_vial_collected(experience_points)
 	queue_free()

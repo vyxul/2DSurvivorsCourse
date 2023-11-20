@@ -7,6 +7,8 @@ const ACCELERATION_SMOOTHING = 25
 @onready var damage_interval_timer = $DamageIntervalTimer
 @onready var health_bar = $HealthBar
 @onready var abilities = $Abilities
+@onready var animation_player = $AnimationPlayer
+@onready var visuals = $Visuals
 
 var number_colliding_bodies = 0
 
@@ -28,6 +30,20 @@ func _process(delta):
 	velocity = velocity.lerp(target_velocity, 1 - exp(-delta * ACCELERATION_SMOOTHING))
 	
 	move_and_slide()
+	
+	
+	# face the player the correct way that they are moving
+	var move_sign = sign(movement_vector.x)
+	if move_sign != 0:
+		visuals.scale.x = move_sign
+	# can make it even shorter using below but above is good example of using sign function
+	# if movement_vector.x != 0:
+	#	 visuals.scale.x = movement_vector.x
+			
+	if movement_vector.x != 0 or movement_vector.y != 0:
+		animation_player.play("walk")
+	else:
+		animation_player.play("RESET")
 
 func get_movement_vector():
 	var x_movement = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")

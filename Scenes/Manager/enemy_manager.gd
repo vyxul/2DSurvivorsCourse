@@ -3,7 +3,8 @@ extends Node
 # Half of viewport width with a little bit extra to avoid the enemies being seen spawning at the edges of the screen
 const SPAWN_RADIUS = 375
 
-@export var basic_enemy_scene: PackedScene
+@export var grey_rat_enemy_scene: PackedScene
+@export var wizard_enemy_scene: PackedScene
 @export var arena_time_manager: Node
 
 @export var enemy_spawn_time: float = 1
@@ -11,8 +12,12 @@ const SPAWN_RADIUS = 375
 @onready var timer = $Timer
 
 var base_spawn_time = 0
+var enemy_table = WeightedTable.new()
+
 
 func _ready():
+	enemy_table.add_item(grey_rat_enemy_scene, 10)
+	
 	timer.wait_time = enemy_spawn_time
 	base_spawn_time = timer.wait_time
 	
@@ -56,8 +61,10 @@ func on_timer_timeout():
 	if !player:
 		return
 	
+	# Get the random enemy scene
+	var enemy_scene = enemy_table.pick_item()
 	# Get enemy instance
-	var enemy = basic_enemy_scene.instantiate() as Node2D
+	var enemy = enemy_scene.instantiate() as Node2D
 	
 	var entities_layer = get_tree().get_first_node_in_group("entities_layer")
 	entities_layer.add_child(enemy)
@@ -70,3 +77,7 @@ func on_arena_difficulty_increased(arena_difficulty: int):
 #	print_debug("time_off = %f" % time_off)
 	
 	timer.wait_time = base_spawn_time - time_off
+
+	# at 6 * (5 secs) [30 secs], add wizards to enemy pool
+	if arena_difficulty == 6:
+		enemy_table.add_item(wizard_enemy_scene, 20)
