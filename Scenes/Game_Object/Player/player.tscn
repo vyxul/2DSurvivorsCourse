@@ -1,10 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://cjuky4fk5qvj"]
+[gd_scene load_steps=19 format=3 uid="uid://cjuky4fk5qvj"]
 
 [ext_resource type="Texture2D" uid="uid://dkt00rovk86os" path="res://Scenes/Game_Object/Player/player.png" id="1_a7xn1"]
 [ext_resource type="Script" path="res://Scenes/Game_Object/Player/player.gd" id="1_y5ol4"]
 [ext_resource type="PackedScene" uid="uid://dpakoqqbwi0wr" path="res://Scenes/Component/velocity_component.tscn" id="2_cbwq6"]
 [ext_resource type="PackedScene" uid="uid://bv8nyyi5juhsa" path="res://Scenes/Component/health_component.tscn" id="2_gjy6l"]
 [ext_resource type="PackedScene" uid="uid://b6r1152rlmvo3" path="res://Scenes/Ability/SwordAbilityController/sword_ability_controller.tscn" id="2_ihnwy"]
+[ext_resource type="PackedScene" uid="uid://cv8jqrdbbodjd" path="res://Scenes/Component/random_stream_player_2d_component.tscn" id="4_d8a0c"]
+[ext_resource type="AudioStream" uid="uid://c32mdh1k6olt" path="res://Assets/Audio/SFX/impactMining_000.ogg" id="5_fabde"]
+[ext_resource type="AudioStream" uid="uid://bgptl7vlmmc25" path="res://Assets/Audio/SFX/impactMining_001.ogg" id="6_dgl3i"]
+[ext_resource type="AudioStream" uid="uid://coafj7q0oktaj" path="res://Assets/Audio/SFX/impactMining_002.ogg" id="7_7fduh"]
+[ext_resource type="AudioStream" uid="uid://l83v6tw103ok" path="res://Assets/Audio/SFX/impactMining_003.ogg" id="8_t5pgd"]
+[ext_resource type="AudioStream" uid="uid://cjg4gioc05rho" path="res://Assets/Audio/SFX/impactMining_004.ogg" id="9_ar0c8"]
 
 [sub_resource type="Animation" id="Animation_1xnxr"]
 length = 0.001
@@ -124,6 +130,9 @@ move_speed = 90
 acceleration = 25.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_gjy6l")]
+
+[node name="HitRandomStreamPlayer2DComponent" parent="." instance=ExtResource("4_d8a0c")]
+streams = Array[AudioStream]([ExtResource("5_fabde"), ExtResource("6_dgl3i"), ExtResource("7_7fduh"), ExtResource("8_t5pgd"), ExtResource("9_ar0c8")])
 
 [node name="Abilities" type="Node" parent="."]
 

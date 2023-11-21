@@ -29,4 +29,5 @@ func on_died():
 	global_position = death_position
 	
 	$AnimationPlayer.play("default")
+	$HitRandomAudioPlayerComponent.play_random()
 	

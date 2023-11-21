@@ -1,7 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://cyc1uct5x1ohn"]
+[gd_scene load_steps=15 format=3 uid="uid://cyc1uct5x1ohn"]
 
 [ext_resource type="Script" path="res://Scenes/Component/death_component.gd" id="1_na8be"]
 [ext_resource type="Texture2D" uid="uid://38nuwpgea5jt" path="res://Scenes/Game_Object/Grey_Rat_Enemy/grey_rat.png" id="1_tq0cd"]
+[ext_resource type="PackedScene" uid="uid://cv8jqrdbbodjd" path="res://Scenes/Component/random_stream_player_2d_component.tscn" id="3_kupah"]
+[ext_resource type="AudioStream" uid="uid://seorsatm6vvt" path="res://Assets/Audio/SFX/footstep_carpet_000.ogg" id="4_543m8"]
+[ext_resource type="AudioStream" uid="uid://bdf0u1mv4rwd7" path="res://Assets/Audio/SFX/footstep_carpet_001.ogg" id="5_17fid"]
+[ext_resource type="AudioStream" uid="uid://56lwfj3xtyep" path="res://Assets/Audio/SFX/footstep_carpet_002.ogg" id="6_eye4g"]
+[ext_resource type="AudioStream" uid="uid://bgj5rcxcgmluc" path="res://Assets/Audio/SFX/footstep_carpet_003.ogg" id="7_jmxo3"]
+[ext_resource type="AudioStream" uid="uid://5gdhurhtvx5d" path="res://Assets/Audio/SFX/footstep_carpet_004.ogg" id="8_e5tmw"]
 
 [sub_resource type="Animation" id="Animation_38e3h"]
 length = 0.001
@@ -90,3 +96,7 @@ lifetime = 0.5
 one_shot = true
 fixed_fps = 0
 interpolate = false
+
+[node name="HitRandomAudioPlayerComponent" parent="." instance=ExtResource("3_kupah")]
+max_distance = 300.0
+streams = Array[AudioStream]([ExtResource("4_543m8"), ExtResource("5_17fid"), ExtResource("6_eye4g"), ExtResource("7_jmxo3"), ExtResource("8_e5tmw")])
