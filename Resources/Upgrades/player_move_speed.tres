@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AbilityUpgrade" load_steps=2 format=3 uid="uid://dobgtnyyoo0ra"]
+
+[ext_resource type="Script" path="res://Resources/Upgrades/ability_upgrade.gd" id="1_6v1r5"]
+
+[resource]
+script = ExtResource("1_6v1r5")
+id = "player_move_speed"
+max_quantity = 2
+name = "Boots of Swiftness"
+description = "With these magical boots, move faster by 10%"

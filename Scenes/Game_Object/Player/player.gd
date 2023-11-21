@@ -1,8 +1,6 @@
 extends CharacterBody2D
 
-const MAX_SPEED = 125
-const ACCELERATION_SMOOTHING = 25
-
+@onready var velocity_component = $VelocityComponent
 @onready var health_component = $HealthComponent
 @onready var damage_interval_timer = $DamageIntervalTimer
 @onready var health_bar = $HealthBar
@@ -11,8 +9,13 @@ const ACCELERATION_SMOOTHING = 25
 @onready var visuals = $Visuals
 
 var number_colliding_bodies = 0
+var base_move_speed = 0
+var base_move_speed_multiplier = 1
+var move_speed_multiplier: float = 1
 
 func _ready():
+	base_move_speed = velocity_component.move_speed
+	
 	$CollisionArea2D.body_entered.connect(on_body_entered)
 	$CollisionArea2D.body_exited.connect(on_body_exited)
 	damage_interval_timer.timeout.connect(on_damage_interval_timer_timeout)
@@ -23,14 +26,9 @@ func _ready():
 func _process(delta):
 	var movement_vector: Vector2 = get_movement_vector()
 	var direction = movement_vector.normalized()
-	
-	# Adding acceleration to the player by frame independent lerping
-	var target_velocity = direction * MAX_SPEED
-	
-	velocity = velocity.lerp(target_velocity, 1 - exp(-delta * ACCELERATION_SMOOTHING))
-	
-	move_and_slide()
-	
+
+	velocity_component.accelerate_in_direction(direction)
+	velocity_component.move(self)
 	
 	# face the player the correct way that they are moving
 	var move_sign = sign(movement_vector.x)
@@ -80,6 +78,7 @@ func on_damage_interval_timer_timeout():
 
 
 func on_health_changed():
+	GameEvents.emit_player_damaged()
 	update_health_display()
 
 
@@ -89,3 +88,9 @@ func on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Diction
 		var ability_scene = upgrade.ability_controller_scene as PackedScene
 		var ability_instance = ability_scene.instantiate()
 		abilities.add_child(ability_instance)
+
+	elif upgrade.id == "player_move_speed":
+		move_speed_multiplier = base_move_speed_multiplier + \
+					(current_upgrades[upgrade.id]["quantity"] * .1)
+		velocity_component.move_speed = base_move_speed * move_speed_multiplier
+		print_debug("New player move speed = %d" % velocity_component.move_speed)
