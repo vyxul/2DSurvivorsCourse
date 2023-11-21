@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cjuky4fk5qvj"]
+[gd_scene load_steps=12 format=3 uid="uid://cjuky4fk5qvj"]
 
 [ext_resource type="Texture2D" uid="uid://dkt00rovk86os" path="res://Scenes/Game_Object/Player/player.png" id="1_a7xn1"]
 [ext_resource type="Script" path="res://Scenes/Game_Object/Player/player.gd" id="1_y5ol4"]
@@ -91,10 +91,7 @@ _data = {
 "walk": SubResource("Animation_q1742")
 }
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3laoc"]
-bg_color = Color(0.247059, 0.14902, 0.192157, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvqmd"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxrsu"]
 bg_color = Color(0.909804, 0.270588, 0.215686, 1)
 border_width_left = 1
 border_width_top = 1
@@ -126,7 +123,6 @@ libraries = {
 [node name="Abilities" type="Node" parent="."]
 
 [node name="SwordAbilityController" parent="Abilities" instance=ExtResource("2_ihnwy")]
-sword_base_attack_rate = 0.5
 
 [node name="DamageIntervalTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -139,8 +135,7 @@ offset_top = -23.0
 offset_right = 16.0
 offset_bottom = -17.0
 pivot_offset = Vector2(16, 3)
-theme_override_styles/background = SubResource("StyleBoxFlat_3laoc")
-theme_override_styles/fill = SubResource("StyleBoxFlat_xvqmd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lxrsu")
 max_value = 1.0
 value = 0.5
 show_percentage = false

@@ -9,4 +9,4 @@ ability_controller_scene = ExtResource("1_j2iic")
 id = "axe"
 max_quantity = 1
 name = "Axe"
-description = "Throw around a spinning axe that flies in circle around you"
+description = "Throw around a spinning axe that flies in a circle around you"
