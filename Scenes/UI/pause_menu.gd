@@ -76,11 +76,12 @@ func on_options_pressed():
 
 
 func on_quit_pressed():
-	ScreenTransition.transition()
-	await ScreenTransition.transitioned_halfway
+	MetaProgression.save()
 	
+	ScreenTransition.transition_to_scene("res://Scenes/UI/main_menu.tscn")
+	# need this await to prevent game from unpausing while going through scene transition too early
+	await ScreenTransition.transitioned_halfway
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/UI/main_menu.tscn")
 
 
 func on_options_back_pressed(options_menu_instance: Node):

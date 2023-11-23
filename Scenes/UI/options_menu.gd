@@ -10,6 +10,7 @@ signal back_pressed
 @onready var sfx_value_label = %SfxValueLabel
 @onready var window_button = %WindowButton
 @onready var back_button = %BackButton
+@onready var reset_save_button = %ResetSaveButton
 
 
 func _ready():
@@ -18,6 +19,7 @@ func _ready():
 	sfx_slider.value_changed.connect(on_audio_slider_changed.bind("SFX"))
 	window_button.pressed.connect(on_window_button_pressed)
 	back_button.pressed.connect(on_back_button_pressed)
+	reset_save_button.pressed.connect(on_reset_save_button_pressed)
 	
 	update_display()
 	
@@ -61,6 +63,7 @@ func on_window_button_pressed():
 	if mode != DisplayServer.WINDOW_MODE_FULLSCREEN:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	
 	update_display()
@@ -77,3 +80,7 @@ func on_back_button_pressed():
 	await ScreenTransition.transitioned_halfway
 	
 	back_pressed.emit()
+
+
+func on_reset_save_button_pressed():
+	MetaProgression.clear()

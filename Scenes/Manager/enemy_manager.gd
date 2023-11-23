@@ -39,9 +39,14 @@ func get_spawn_position() -> Vector2:
 	for i in 4:
 		# Get a random direction and position to spawn enemy
 		spawn_position = player.global_position + (random_direction * SPAWN_RADIUS)
-			
+		
+		# in the case that the raycast ends a few pixels away from the wall,
+		# the enemy will spawn with their collision shape inside the wall and can't move
+		# check a little past where the raycast ends to ensure this doesn't happen
+		var additional_check_offset = random_direction * 20
+		
 		# 1 is for the terrain layer
-		var query_parameters = PhysicsRayQueryParameters2D.create(player.global_position, spawn_position, 1)
+		var query_parameters = PhysicsRayQueryParameters2D.create(player.global_position, spawn_position + additional_check_offset, 1)
 		var result = get_tree().root.world_2d.direct_space_state.intersect_ray(query_parameters)
 		
 		# means that the ray didn't have any collision and is a valid spawn position

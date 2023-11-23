@@ -5,12 +5,16 @@ extends Node
 @export var health_component: HealthComponent
 @export var vial_scene: PackedScene
 
+@export var experience_gained_upgrade: MetaUpgrade
 
 func _ready():
 	health_component.died.connect(on_died)
 
 
 func on_died():
+	var experience_gained_upgrade_count = MetaProgression.get_upgrade_count(experience_gained_upgrade)
+	var adjusted_drop_percent = drop_percent * (1 + (experience_gained_upgrade.upgrade_percent_per_level * experience_gained_upgrade_count))
+	
 	if !vial_scene:
 		return
 		
@@ -18,7 +22,7 @@ func on_died():
 	if not owner is Node2D:
 		return
 
-	if randf() > drop_percent:
+	if randf() > adjusted_drop_percent:
 		return
 
 	var spawn_position = (owner as Node2D).global_position
