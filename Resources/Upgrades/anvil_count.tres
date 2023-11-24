@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AbilityUpgrade" load_steps=2 format=3 uid="uid://bdly5nk8rgcrw"]
+
+[ext_resource type="Script" path="res://Resources/Upgrades/ability_upgrade.gd" id="1_pyt1c"]
+
+[resource]
+script = ExtResource("1_pyt1c")
+id = "anvil_count"
+max_quantity = 1
+name = "Anvil Count"
+description = "Increases anvil drops by 1"

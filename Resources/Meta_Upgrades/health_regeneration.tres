@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MetaUpgrade" load_steps=2 format=3 uid="uid://bhpgs6ihwi1th"]
+
+[ext_resource type="Script" path="res://Resources/Meta_Upgrades/meta_upgrade.gd" id="1_6xsem"]
+
+[resource]
+script = ExtResource("1_6xsem")
+id = "health_regeneration"
+max_quantity = 10
+experience_cost = 1
+upgrade_raw_per_level = 0.1
+upgrade_percent_per_level = 0.0
+title = "Health Regen"
+description = "Regenerates .1 HP every 5 seconds"

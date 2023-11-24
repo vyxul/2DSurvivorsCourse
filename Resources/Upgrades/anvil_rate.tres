@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="AbilityUpgrade" load_steps=2 format=3 uid="uid://gccx4gwto8rq"]
+
+[ext_resource type="Script" path="res://Resources/Upgrades/ability_upgrade.gd" id="1_vdn1i"]
+
+[resource]
+script = ExtResource("1_vdn1i")
+id = "anvil_rate"
+max_quantity = 1
+name = "Anvil Quickness"
+description = "Increases anvil attack rate by 10%"

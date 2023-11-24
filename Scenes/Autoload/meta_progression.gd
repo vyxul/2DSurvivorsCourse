@@ -55,7 +55,7 @@ func add_meta_upgrade(upgrade: MetaUpgrade):
 
 	# increment the counter for the upgrade quantity
 	save_data["meta_upgrades"][upgrade.id]["quantity"] += 1
-	print_debug(save_data)
+#	print_debug(save_data)
 	save()
 
 

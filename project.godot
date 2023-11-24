@@ -41,7 +41,7 @@ window/size/mode=3
 window/size/window_width_override=1536
 window/size/window_height_override=864
 window/stretch/mode="viewport"
-window/size/mode.debug=3
+window/size/mode.debug=0
 
 [gui]
 

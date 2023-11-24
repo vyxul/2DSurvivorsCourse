@@ -8,10 +8,10 @@ var hit_flash_tween: Tween
 
 
 func _ready():
-	health_component.health_changed.connect(on_health_changed)
+	health_component.health_decreased.connect(on_health_decreased)
 	sprite.material = hit_flash_material
 
-func on_health_changed():
+func on_health_decreased():
 	# if hit flash tween is already running
 	if hit_flash_tween != null && hit_flash_tween.is_valid():
 		# kill the tween so we dont have 2 tweens running

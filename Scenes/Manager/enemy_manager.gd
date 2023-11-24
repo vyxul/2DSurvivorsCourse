@@ -5,6 +5,7 @@ const SPAWN_RADIUS = 375
 
 @export var grey_rat_enemy_scene: PackedScene
 @export var wizard_enemy_scene: PackedScene
+@export var bat_enemy_scene: PackedScene
 @export var arena_time_manager: Node
 
 @export var enemy_spawn_time: float = 1
@@ -12,6 +13,7 @@ const SPAWN_RADIUS = 375
 @onready var timer = $Timer
 
 var base_spawn_time = 0
+var number_to_spawn: int = 1
 var enemy_table = WeightedTable.new()
 
 
@@ -66,14 +68,15 @@ func on_timer_timeout():
 	if !player:
 		return
 	
-	# Get the random enemy scene
-	var enemy_scene = enemy_table.pick_item()
-	# Get enemy instance
-	var enemy = enemy_scene.instantiate() as Node2D
-	
-	var entities_layer = get_tree().get_first_node_in_group("entities_layer")
-	entities_layer.add_child(enemy)
-	enemy.global_position = get_spawn_position()
+	for i in number_to_spawn:
+		# Get the random enemy scene
+		var enemy_scene = enemy_table.pick_item()
+		# Get enemy instance
+		var enemy = enemy_scene.instantiate() as Node2D
+		
+		var entities_layer = get_tree().get_first_node_in_group("entities_layer")
+		entities_layer.add_child(enemy)
+		enemy.global_position = get_spawn_position()
 
 
 func on_arena_difficulty_increased(arena_difficulty: int):
@@ -83,6 +86,13 @@ func on_arena_difficulty_increased(arena_difficulty: int):
 	
 	timer.wait_time = base_spawn_time - time_off
 
-	# at 6 * (5 secs) [30 secs], add wizards to enemy pool
-	if arena_difficulty == 6:
+
+	if arena_difficulty == 1:
+		enemy_table.add_item(bat_enemy_scene, 15)
+	# at 3 * (5 secs) [15 secs], add wizards to enemy pool
+	if arena_difficulty == 3:
 		enemy_table.add_item(wizard_enemy_scene, 20)
+		
+	if (arena_difficulty % 2) == 0:
+		number_to_spawn += 1
+		print_debug("number to spawn = %d" % number_to_spawn)

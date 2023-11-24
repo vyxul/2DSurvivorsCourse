@@ -7,19 +7,30 @@ extends CharacterBody2D
 @onready var abilities = $Abilities
 @onready var animation_player = $AnimationPlayer
 @onready var visuals = $Visuals
+@onready var health_regen_timer = $HealthRegenTimer
 
 var number_colliding_bodies = 0
 var base_move_speed = 0
 var base_move_speed_multiplier = 1
 var move_speed_multiplier: float = 1
+var health_regen_per_interval: float = 0
 
 func _ready():
 	base_move_speed = velocity_component.move_speed
+	var health_regen_meta_upgrade = load("res://Resources/Meta_Upgrades/health_regeneration.tres")
+	var health_regen_data = MetaProgression.get_upgrade_data(health_regen_meta_upgrade)
+	if health_regen_data.is_empty():
+		health_regen_per_interval = 0
+	else:
+		health_regen_per_interval = health_regen_data["quantity"] * health_regen_meta_upgrade.upgrade_raw_per_level
 	
 	$CollisionArea2D.body_entered.connect(on_body_entered)
 	$CollisionArea2D.body_exited.connect(on_body_exited)
 	damage_interval_timer.timeout.connect(on_damage_interval_timer_timeout)
+	health_component.health_decreased.connect(on_health_decreased)
 	health_component.health_changed.connect(on_health_changed)
+	health_component.full_hp.connect(on_full_hp)
+	health_regen_timer.timeout.connect(on_health_regen_timeout)
 	GameEvents.ability_upgrade_added.connect(on_ability_upgrade_added)
 	update_health_display()
 
@@ -77,9 +88,15 @@ func on_damage_interval_timer_timeout():
 	check_deal_damage()
 
 
-func on_health_changed():
+func on_health_decreased():
 	$HitRandomStreamPlayer2DComponent.play_random()
 	GameEvents.emit_player_damaged()
+	update_health_display()
+	if health_regen_timer.is_stopped():
+		health_regen_timer.start()
+
+
+func on_health_changed():
 	update_health_display()
 
 
@@ -95,3 +112,11 @@ func on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Diction
 					(current_upgrades[upgrade.id]["quantity"] * .1)
 		velocity_component.move_speed = base_move_speed * move_speed_multiplier
 		print_debug("New player move speed = %d" % velocity_component.move_speed)
+
+
+func on_health_regen_timeout():
+	health_component.heal(health_regen_per_interval)
+
+
+func on_full_hp():
+	health_regen_timer.stop()

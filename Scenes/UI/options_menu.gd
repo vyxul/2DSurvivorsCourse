@@ -70,7 +70,7 @@ func on_window_button_pressed():
 
 
 func on_audio_slider_changed(value: float, bus_name: String):
-	print_debug("audio slider changed")
+#	print_debug("audio slider changed")
 	set_bus_volume_percent(bus_name, value)
 	update_display()
 

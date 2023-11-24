@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cjuky4fk5qvj"]
+[gd_scene load_steps=20 format=3 uid="uid://cjuky4fk5qvj"]
 
 [ext_resource type="Texture2D" uid="uid://dkt00rovk86os" path="res://Scenes/Game_Object/Player/player.png" id="1_a7xn1"]
 [ext_resource type="Script" path="res://Scenes/Game_Object/Player/player.gd" id="1_y5ol4"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://coafj7q0oktaj" path="res://Assets/Audio/SFX/impactMining_002.ogg" id="7_7fduh"]
 [ext_resource type="AudioStream" uid="uid://l83v6tw103ok" path="res://Assets/Audio/SFX/impactMining_003.ogg" id="8_t5pgd"]
 [ext_resource type="AudioStream" uid="uid://cjg4gioc05rho" path="res://Assets/Audio/SFX/impactMining_004.ogg" id="9_ar0c8"]
+[ext_resource type="PackedScene" uid="uid://1iysqu16ip1d" path="res://Scenes/Ability/AnvilAbilityController/anvil_ability_controller.tscn" id="11_4p6nv"]
 
 [sub_resource type="Animation" id="Animation_1xnxr"]
 length = 0.001
@@ -138,6 +139,8 @@ streams = Array[AudioStream]([ExtResource("5_fabde"), ExtResource("6_dgl3i"), Ex
 
 [node name="SwordAbilityController" parent="Abilities" instance=ExtResource("2_ihnwy")]
 
+[node name="AnvilAbilityController" parent="Abilities" instance=ExtResource("11_4p6nv")]
+
 [node name="DamageIntervalTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
@@ -182,3 +185,6 @@ offset = Vector2(0, -8)
 visible = false
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_1nfjw")
+
+[node name="HealthRegenTimer" type="Timer" parent="."]
+wait_time = 5.0

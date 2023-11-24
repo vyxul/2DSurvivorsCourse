@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_43w07")
 id = "experience_gained"
-max_quantity = 1
+max_quantity = 10
 experience_cost = 10
 upgrade_raw_per_level = 0
 upgrade_percent_per_level = 0.1
